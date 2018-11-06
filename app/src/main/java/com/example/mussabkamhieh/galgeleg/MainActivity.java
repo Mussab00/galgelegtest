@@ -3,11 +3,11 @@ package com.example.mussabkamhieh.galgeleg;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class highscore extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_highscore);
+        setContentView(R.layout.activity_main);
     }
 }

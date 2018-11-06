@@ -36,7 +36,6 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        ImageView billede = findViewById(R.id.billede);
         Button spilKnap = findViewById(R.id.spilKnap);
         EditText bogstavFelt = findViewById(R.id.bogstavFelt);
 
@@ -47,6 +46,19 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
         }
 
         logik.gætBogstav(bogstav);
+
+
+        bogstavFelt.setText("");
+        bogstavFelt.setError(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            spilKnap.animate().rotationBy(3*360).setInterpolator(new DecelerateInterpolator());
+//      spilKnap.animate().translationYBy(30).setInterpolator(new BounceInterpolator());
+        }
+        updateScreen();
+    }
+    private void updateScreen() {
+        ImageView billede = findViewById(R.id.billede);
+        TextView info = findViewById(R.id.info);
 
         switch (logik.getAntalForkerteBogstaver()) {
             case 1: billede.setImageResource(R.drawable.forkert1);
@@ -64,17 +76,6 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
             case 7: billede.setImageResource(R.drawable.forkert7);
                 break;
         }
-        bogstavFelt.setText("");
-        bogstavFelt.setError(null);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-            spilKnap.animate().rotationBy(3*360).setInterpolator(new DecelerateInterpolator());
-//      spilKnap.animate().translationYBy(30).setInterpolator(new BounceInterpolator());
-        }
-        updateScreen();
-    }
-    private void updateScreen() {
-        ImageView billede = findViewById(R.id.billede);
-        TextView info = findViewById(R.id.info);
 
         info.setText("Gæt ordet: " + logik.getSynligtOrd());
         info.append("\n\nDu har " + logik.getAntalForkerteBogstaver() + " forkerte:" + logik.getBrugteBogstaver());

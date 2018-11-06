@@ -14,11 +14,9 @@ public class hovedmenu extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_hovedmenu);
 
         Button StartGame = findViewById(R.id.StartGame);
-        Button Highscore = findViewById(R.id.Highscore);
         Button Help = findViewById(R.id.Help);
 
         StartGame.setOnClickListener(this);
-        Highscore.setOnClickListener(this);
         Help.setOnClickListener(this);
     }
 
@@ -26,9 +24,6 @@ public class hovedmenu extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         if (v.getId() == R.id.StartGame) {
             Intent intent = new Intent(hovedmenu.this, spil.class);
-            startActivity(intent);
-        } else if (v.getId() == R.id.Highscore){
-            Intent intent = new Intent(hovedmenu.this, highscore.class);
             startActivity(intent);
         } else if (v.getId() == R.id.Help) {
             Intent intent = new Intent(hovedmenu.this, help.class);
