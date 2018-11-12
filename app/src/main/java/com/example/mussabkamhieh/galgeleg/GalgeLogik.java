@@ -21,21 +21,15 @@ public class GalgeLogik {
     private boolean spilletErTabt;
 
 
-    public ArrayList<String> getBrugteBogstaver() {
-        return brugteBogstaver;
-    }
+    public ArrayList<String> getBrugteBogstaver() { return brugteBogstaver; }
 
-    public String getSynligtOrd() {
-        return synligtOrd;
-    }
+    public String getSynligtOrd() { return synligtOrd; }
 
     public String getOrdet() {
         return ordet;
     }
 
-    public int getAntalForkerteBogstaver() {
-        return antalForkerteBogstaver;
-    }
+    public int getAntalForkerteBogstaver() { return antalForkerteBogstaver; }
 
     public boolean erSidsteBogstavKorrekt() {
         return sidsteBogstavVarKorrekt;

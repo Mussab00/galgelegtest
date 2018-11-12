@@ -2,15 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mussabkamhieh.galgeleg">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Galgeleg s.175188"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".hovedmenu">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,20 +20,13 @@
         </activity>
         <activity
             android:name=".spil"
-            android:theme="@style/AppThemeNoActionBar"/>
-
-        <activity
-            android:name=".help"
-            android:theme="@style/AppThemeNoActionBar"/>
+            android:theme="@style/AppThemeNoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts"/>
+            android:resource="@array/preloaded_fonts" />
 
-        <activity
-            android:name=".MainActivity">
-            android:theme="@style/AppThemeNoActionBar"
-        </activity>
+        <activity android:name=".omSpil"></activity>
     </application>
 
 </manifest>

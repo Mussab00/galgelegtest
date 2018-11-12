@@ -1,18 +1,30 @@
 package com.example.mussabkamhieh.galgeleg;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static java.security.AccessController.getContext;
+
 public class spil extends AppCompatActivity implements View.OnClickListener {
 
     GalgeLogik logik = new GalgeLogik();
+    InputMethodManager input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +33,9 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
 
         TextView info = findViewById(R.id.info);
         Button spilKnap = findViewById(R.id.spilKnap);
+
+        input = (InputMethodManager)
+        getSystemService(Context.INPUT_METHOD_SERVICE);
 
 
         info.setText("Gæt ordet: "+logik.getSynligtOrd() +
@@ -52,6 +67,7 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
         bogstavFelt.setError(null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
             spilKnap.animate().rotationBy(3*360).setInterpolator(new DecelerateInterpolator());
+            input.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 //      spilKnap.animate().translationYBy(30).setInterpolator(new BounceInterpolator());
         }
         updateScreen();
@@ -80,13 +96,28 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
         info.setText("Gæt ordet: " + logik.getSynligtOrd());
         info.append("\n\nDu har " + logik.getAntalForkerteBogstaver() + " forkerte:" + logik.getBrugteBogstaver());
 
+        Bundle bundle = new Bundle();
+
         if (logik.erSpilletVundet()) {
-            info.append("\nTillykke! Du har vundet :)");
-            billede.setImageResource(R.drawable.vundet);
+            bundle.putInt("forsøg", logik.getBrugteBogstaver().size());
+            replaceFragment(new vundetFragment(), bundle);
         }
         if (logik.erSpilletTabt()) {
-            info.setText("Øv! Du har tabt, ordet var : " + logik.getOrdet());
+            bundle.putString("ordet", logik.getOrdet());
+            replaceFragment(new tabtFragment(), bundle);
         }
 
+    }
+
+    public void replaceFragment(Fragment fragment, Bundle bundle) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragment.setArguments(bundle);
+        findViewById(R.id.overallThree).setVisibility(View.INVISIBLE);
+        findViewById(R.id.billede).setVisibility(View.INVISIBLE);
+        fragmentTransaction.replace(R.id.overall, fragment);
+        fragmentTransaction.addToBackStack(fragment.toString());
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.commit();
     }
 }

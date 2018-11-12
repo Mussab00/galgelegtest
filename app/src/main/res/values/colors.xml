@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#414141</color>
+    <color name="colorAccent">#484848</color>
+    <color name="grå40">#cacaca</color>
+    <color name="lyseblå">#838383</color>
     <color name="colorPrimary">#1a237e</color>
-    <color name="hvid">#ffff</color>
+    <color name="hvid">#ffffff</color>
+    <color name="lysegrå">#dcdcdc</color>
+    <color name="transparent">#00000000</color>
 </resources>
