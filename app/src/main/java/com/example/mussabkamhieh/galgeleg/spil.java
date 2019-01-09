@@ -4,38 +4,59 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import static com.example.mussabkamhieh.galgeleg.settingsFragment.SHARED_PREFS;
 import static java.security.AccessController.getContext;
 
 public class spil extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "SpilActivity";
+    public static final String SHARED_PREFERENCES_KEY = "com.example.mussabkamhieh.galgeleg";
+
     GalgeLogik logik = new GalgeLogik();
-    InputMethodManager input;
+    TextView loading;
+    ToggleButton tglBtn;
+
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spil);
 
+        final TextView loading = findViewById(R.id.loading);
+
         TextView info = findViewById(R.id.info);
         Button spilKnap = findViewById(R.id.spilKnap);
 
-        input = (InputMethodManager)
-        getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.push();
 
 
         info.setText("Gæt ordet: "+logik.getSynligtOrd() +
@@ -47,7 +68,33 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
         spilKnap.setOnClickListener(this);
 
         logik.logStatus();
+        prefs = getSharedPreferences(
+                SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+
+        boolean hentFraDR = prefs.getBoolean(SHARED_PREFS, false);
+        Log.d(TAG, "boolean value is: " + hentFraDR);
+        if (hentFraDR) {
+            loading.setText("Henter ord fra DRs server....");
+            new AsyncTask() {
+                @Override
+                protected Object doInBackground(Object... arg0) {
+                    try {
+                        logik.hentOrdFraDr();
+                        return "Ordene blev korrekt hentet fra DR's server";
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return "Ordene blev ikke hentet korrekt: "+e;
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(Object resultat) {
+                    loading.setText("resultat: \n" + resultat);
+                }
+            }.execute();
+        }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -67,7 +114,6 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
         bogstavFelt.setError(null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
             spilKnap.animate().rotationBy(3*360).setInterpolator(new DecelerateInterpolator());
-            input.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 //      spilKnap.animate().translationYBy(30).setInterpolator(new BounceInterpolator());
         }
         updateScreen();
@@ -99,7 +145,10 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
         Bundle bundle = new Bundle();
 
         if (logik.erSpilletVundet()) {
+            MediaPlayer winSound = MediaPlayer.create(this, R.raw.win);
+            winSound.start();
             bundle.putInt("forsøg", logik.getBrugteBogstaver().size());
+            bundle.putInt("forkerte", logik.getAntalForkerteBogstaver());
             replaceFragment(new vundetFragment(), bundle);
         }
         if (logik.erSpilletTabt()) {
@@ -115,6 +164,7 @@ public class spil extends AppCompatActivity implements View.OnClickListener {
         fragment.setArguments(bundle);
         findViewById(R.id.overallThree).setVisibility(View.INVISIBLE);
         findViewById(R.id.billede).setVisibility(View.INVISIBLE);
+        findViewById(R.id.loading).setVisibility(View.INVISIBLE);
         fragmentTransaction.replace(R.id.overall, fragment);
         fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1021380721088",
+    "firebase_url": "https://galgeleg-13061.firebaseio.com",
+    "project_id": "galgeleg-13061",
+    "storage_bucket": "galgeleg-13061.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021380721088:android:2141dfa6452abd84",
+        "android_client_info": {
+          "package_name": "com.example.mussabkamhieh.galgeleg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021380721088-do5uknmf35eo9d2l60rbb1ktbak586rc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mussabkamhieh.galgeleg",
+            "certificate_hash": "d13d97e05f4a0cf1ffb19172d7ffe506fb238f87"
+          }
+        },
+        {
+          "client_id": "1021380721088-f3v5i58sh9ffukhgdcvdqiqlh62aa7lq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyOxMeSeuRePaNO2FPoH2mPw_7HYnqyqM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021380721088-f3v5i58sh9ffukhgdcvdqiqlh62aa7lq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

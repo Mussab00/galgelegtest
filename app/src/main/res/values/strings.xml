@@ -13,4 +13,6 @@
     <string name="navi_spil">Spil</string>
     <string name="navi_highscore">Highscore</string>
     <string name="navi_settings">Indstillinger</string>
+    <string name="title_activity_ord_dialog">ordDialog</string>
+    <string name="navn">com.example.mussabkamhieh.galgeleg.navn</string>
 </resources>

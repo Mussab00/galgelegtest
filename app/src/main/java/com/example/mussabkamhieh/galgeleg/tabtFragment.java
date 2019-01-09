@@ -27,7 +27,7 @@ public class tabtFragment extends Fragment implements View.OnClickListener {
         rigtigOrd = getData.getString("ordet");
 
         tekst = view.findViewById(R.id.tabtinfo);
-        tekst.setText("Ordet var " + rigtigOrd + "." );
+        tekst.setText("Ordet var \"" + rigtigOrd + "\"." );
 
         igenTabt = view.findViewById(R.id.igenTabt);
         menuTabt = view.findViewById(R.id.menuTabt);
